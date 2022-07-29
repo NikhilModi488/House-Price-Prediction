@@ -2,10 +2,11 @@ from flask import Flask,request, render_template
 import pandas as pd
 from flask_cors import cross_origin
 import pickle
+import bz2
 
 app=Flask(__name__)
 
-pickle_file=open('house_price.pkl','rb')
+pickle_file=bz2.BZ2File('house_price.pkl','rb')
 model=pickle.load(pickle_file)
 
 @app.route('/')
