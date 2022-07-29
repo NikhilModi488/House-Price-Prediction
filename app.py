@@ -6,7 +6,7 @@ import bz2
 
 app=Flask(__name__)
 
-pickle_file=bz2.BZ2File('house price prediction\house_price.pkl','rb')
+pickle_file=open('house_price.pkl','rb')
 model=pickle.load(pickle_file)
 
 @app.route('/')
