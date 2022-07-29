@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Flight price prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;900&display=swap');
+
+        *, body {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        html, body {
+            height: 100%;
+            width: 100%;
+            background-color: #152733;
+            overflow: hidden;
+        }
+
+
+        .form-holder {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+              min-height: 100vh;
+        }
+
+        .form-holder .form-content {
+            position: relative;
+            text-align: center;
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-align-items: center;
+            align-items: center;
+            padding: 60px;
+        }
+
+        .form-content .form-items {
+            border: 3px solid #fff;
+            padding: 40px;
+            display: inline-block;
+            width: 100%;
+            min-width: 540px;
+            -webkit-border-radius: 10px;
+            -moz-border-radius: 10px;
+            border-radius: 10px;
+            text-align: left;
+            -webkit-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+        }
+
+        .form-content h3 {
+            color: #fff;
+            text-align: left;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .form-content h3.form-title {
+            margin-bottom: 30px;
+        }
+
+        .form-content p {
+            color: #fff;
+            text-align: left;
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 20px;
+            margin-bottom: 30px;
+        }
+
+
+        .form-content label, .was-validated .form-check-input:invalid~.form-check-label, .was-validated .form-check-input:valid~.form-check-label{
+            color: #fff;
+        }
+
+        .form-content input[type=text], .form-content input[type=password], .form-content input[type=email], .form-content select {
+            width: 100%;
+            padding: 9px 20px;
+            text-align: left;
+            border: 0;
+            outline: 0;
+            border-radius: 6px;
+            background-color: #fff;
+            font-size: 15px;
+            font-weight: 300;
+            color: #8D8D8D;
+            -webkit-transition: all 0.3s ease;
+            transition: all 0.3s ease;
+            margin-top: 16px;
+        }
+
+
+        .btn-primary{
+            background-color: #6C757D;
+            outline: none;
+            border: 0px;
+             box-shadow: none;
+        }
+
+        .btn-primary:hover, .btn-primary:focus, .btn-primary:active{
+            background-color: #495056;
+            outline: none !important;
+            border: none !important;
+             box-shadow: none;
+        }
+
+        .form-content textarea {
+            position: static !important;
+            width: 100%;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-align: left;
+            background-color: #fff;
+            border: 0;
+            font-size: 15px;
+            font-weight: 300;
+            color: #8D8D8D;
+            outline: none;
+            resize: none;
+            height: 120px;
+            -webkit-transition: none;
+            transition: none;
+            margin-bottom: 14px;
+        }
+
+        .form-content textarea:hover, .form-content textarea:focus {
+            border: 0;
+            background-color: #ebeff8;
+            color: #8D8D8D;
+        }
+
+        .mv-up{
+            margin-top: -9px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .invalid-feedback{
+            color: #ff606e;
+        }
+
+        .valid-feedback{
+           color: #2acc80;
+        }
+    </style>
+</head>
+<body style="overflow:auto;">
+
+            <!-- <div class="form-holder"> -->
+                <div class="form-content" style="width: 20%; margin-top: 50px; margin-left: 120px; margin-bottom: 50px;">
+                    <div class="form-items">
+                        <h3>Register Today</h3>
+                        <p>Fill in the data below.</p>
+                        <form action="/predict" method="POST" class="requires-validation" novalidate>
+                           <div class="col-md-12">
+                               <h5 class="card-title" style="color:white;">Posted By</h5>
+                                <select class="form-select mt-3" name="posted_by" id="posted_by" required>
+                                        <option selected disabled value="">Select</option>
+                                        <option>Owner</option>
+                                        <option>Dealer</option>
+                                        <option>Builder</option>
+                               </select>
+                                <div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+                            <div class="col-md-12">
+                               <h5 class="card-title" style="color:white">UNDER CONSTRUCTION</h5>
+                                <select class="form-select mt-3" name="UNDER_CONSTRUCTION" id="UNDER_CONSTRUCTION" required>
+                                        <option selected disabled value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                               </select>
+                                <div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+                            <div class="col-md-12">
+                               <h5 class="card-title" style="color:white">RERA</h5>
+                                <select class="form-select mt-3" name="RERA" id="RERA" required>
+                                        <option selected disabled value="">Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                               </select>
+                                <div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+
+                            <div class="col-md-12">
+                                <label for="BHK" class="form-label">No. of BHK</label>
+                                <input type="number" class="form-control" name="BHK" id="BHK" value="Mark" required>
+                                <div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+                            <div class="col-md-12">
+                               <h5 class="card-title" style="color:white">BHK OR RK</h5>
+                                <select class="form-select mt-3" name="BHKRK" id="BHKRK" required>
+                                        <option selected disabled value="">Select</option>
+                                        <option>BHK</option>
+                                        <option>RK</option>
+                               </select>
+                                <div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+
+                            <div class="col-md-12">
+                                <label for="SQUARE_FT" class="form-label">Square ft</label>
+                                <input type="number" step="any" class="form-control" name="SQUARE_FT" id="SQUARE_FT" value="Mark" required>
+                                <div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+
+
+                            <div class="col-md-12">
+                               <h5 class="card-title" style="color:white">READY TO MOVE</h5>
+                                <select class="form-select mt-3" name="READY_TO_MOVE" id="READY_TO_MOVE" required>
+                                        <option selected disabled value="">Select</option>
+                                        <option value="0">Yes</option>
+                                        <option value="1">No</option>
+                               </select>
+                                <div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+
+
+                            <div class="col-md-12">
+                               <h5 class="card-title" style="color:white">RESALE</h5>
+                                <select class="form-select mt-3" name="RESALE" id="RESALE" required>
+                                        <option selected disabled value="">Select</option>
+                                        <option value="0">Yes</option>
+                                        <option value="1">No</option>
+                               </select>
+                                <div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+
+
+
+                            <div class="col-md-12">
+                                <label for="LONGITUDE" class="form-label">LONGITUDE</label>
+                                <input type="number" step="any" class="form-control" name="LONGITUDE" id="LONGITUDE" value="Mark" required><div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+                            <div class="col-md-12">
+                                <label for="LATITUDE" class="form-label">LATITUDE</label>
+                                <input type="number" step="any" class="form-control" name="LATITUDE" id="LATITUDE" value="Mark" required><div class="valid-feedback">You selected a position!</div>
+                                <div class="invalid-feedback">Please select a position!</div>
+                           </div>
+
+
+                            <div class="form-button mt-3">
+                                <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            {% if prediction_price %}
+            <!-- <div class="form-holder"> -->
+                <div class="form-content" style="width: 20%; float: right; margin-right: 350px; margin-top: -750px;">
+                    <div class="form-items">
+                        <h4 style="color:white">price: Rs. {{ prediction_price }} lakh.</h4>
+                        <h6 style="color:white;">Posted By: {{posted_by}}</h6>
+                        <h6 style="color:white;">Under construction: {{under_construction}}</h6>
+                        <h6 style="color:white;">RERA: {{rera}}</h6>
+    <!--                        <h6 style="color:white;">departure time: {{dep_time}}</h6>-->
+                        <h6 style="color:white;">No. of BHK: {{bhk}}</h6>
+                        <h6 style="color:white;">BHK OR RK: {{bhkrk}}</h6>
+                        <h6 style="color:white;">Square ft: {{square_ft}}</h6>
+                        <h6 style="color:white;">READY TO MOVE: {{ready_to_move}}</h6>
+                      <h6 style="color:white;">RESALE: {{RESALE}}</h6>
+                      <h6 style="color:white;">LONGITUDE: {{longitude}}</h6>
+                      <h6 style="color:white;">LATITUDE: {{latitude}}</h6>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+    <script>(function () {
+'use strict'
+const forms = document.querySelectorAll('.requires-validation')
+Array.from(forms)
+  .forEach(function (form) {
+    form.addEventListener('submit', function (event) {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
+</body>
+</html>
